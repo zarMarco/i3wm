@@ -58,41 +58,6 @@ set $right semicolon
 #################                          Single and Dual screen                                   #################
 #####################################################################################################################
 
-
-# setting variables for later use
-# use xrandr and/or arandr to know the names of your monitors
-# use this line to tell which monitor is on the right
-# xrandr --output DVI-I-2 --right-of DVI-I-1 --auto
-exec --no-startup-id xrandr --output HDMI2 --right-of HDMI1 --auto
-
-
-# my current setup
-set $firstMonitor HDMI1
-set $secondMonitor HDMI2
-
-#set $firstMonitor LVDS1
-#set $secondMonitor LVDS1
-
-#set $firstMonitor DVI-I-2
-#set $secondMonitor VGA-0
-
-#set $firstMonitor DVI-I-2
-#set $secondMonitor DVI-I-3
-
-#set $firstMonitor DVI-0
-#set $secondMonitor DVI-1
-
-workspace 1 output $firstMonitor
-workspace 2 output $firstMonitor
-workspace 3 output $firstMonitor
-workspace 4 output $firstMonitor
-workspace 5 output $firstMonitor
-workspace 6 output $secondMonitor
-workspace 7 output $secondMonitor
-workspace 8 output $secondMonitor
-workspace 9 output $secondMonitor
-workspace 10 output $secondMonitor
-
 # switch to workspace
 bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace 2
@@ -125,14 +90,16 @@ bindsym $mod+Shift+0 move container to workspace 10; workspace 10
 assign [class="Termite"] workspace 2
 assign [class="URxvt"] workspace 2
 assign [class="Chromium"] workspace 1
+assign [class="Google-chrome-beta"] workspace 1
 assign [class="Vivaldi-stable"] workspace 1
 assign [class="obs"] workspace 6
 assign [class="Thunar"] workspace 8
 assign [class="TelegramDesktop"] workspace 9
 assign [class="Codeblocks"] workspace 4
 assign [class="Atom"] workspace 4
-assign [class="Subl3"] workspace 4
-
+assign [class="Meld"] workspace 4
+assign [class="libreoffice-startcenter"] workspace 3
+assign [class="Spotify"] workspace 10
 
 #####################################################################################################################
 #################                          3 menu's in arcolinux                                     #################
@@ -388,6 +355,9 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 # Updater
 exec --no-startup-id pamac-tray
 
+# xfce panel
+#exec --no-startup-id xfce4-panel
+
 #
 exec --no-startup-id synclient TapButton1=1
 
@@ -409,9 +379,6 @@ exec_always --no-startup-id numlockx on
 # volume
 #exec --no-startup-id pasystray
 exec --no-startup-id volumeicon
-
-#variety
-#exec --no-startup-id variety
 
 # clipman
 #exec --no-startup-id xfce4-clipman
@@ -445,8 +412,8 @@ bindsym $mod+Shift+Return exec --no-startup-id urxvt; focus
 
 # browser
 bindsym $mod+F1 exec vivaldi-stable
-bindsym $mod+c exec chromium
-
+bindsym $mod+Mod1+F1 exec chromium
+bindsym $mod+Shift+F1 exec google-chrome-beta
 #file manager
 bindsym $mod+F8 exec thunar
 bindsym $mod+Shift+F8 exec termite -e ranger
@@ -455,10 +422,13 @@ bindsym $mod+Shift+F8 exec termite -e ranger
 bindsym $mod+Shift+t exec telegram-desktop
 
 #obs
-bindsym $mod+F9 exec obs
+bindsym $mod+F6 exec obs
 
 #virtualbox
 bindsym $mod+F7 exec virtualbox
+
+#libreoffice
+bindsym $mod+F5 exec libreoffice
 
 #spotify
 bindsym $mod+F10 exec spotify
@@ -485,10 +455,10 @@ bindsym control+mod1+r exec --no-startup-id rofi-theme-selector
 
 #htop
 #arcolinux conflict
-#bindsym $mod+h exec --no-startup-id htop;focus
+bindsym mod1+h exec --no-startup-id termite -e htop;focus
 
 #gtop
-bindsym mod1+h exec --no-startup-id gtop;focus 
+bindsym mod1+Shift+h exec --no-startup-id termite -e gtop;focus
 
 #pavucontrol
 #arcolinux conflict
@@ -500,7 +470,7 @@ bindsym control+mod1+a exec --no-startup-id xfce4-appfinder
 
 # programming
 bindsym $mod+F2 exec atom
-bindsym $mod+F3 exec subl3
+bindsym $mod+F3 exec meld
 bindsym $mod+F4 exec codeblocks
 
 
@@ -616,11 +586,11 @@ for_window [class="Terminator"] focus
 #####################################################################################################################
 
 # next wallpaper
-#bindsym mod1+Shift+n exec --no-startup-id variety -n && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)& 
+#bindsym mod1+Shift+n exec --no-startup-id variety -n && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
 # previous wallpaper
-#bindsym mod1+Shift+p exec --no-startup-id variety -p && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)& 
+#bindsym mod1+Shift+p exec --no-startup-id variety -p && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
 # trash wallpaper
-#bindsym mod1+Shift+t exec --no-startup-id variety -t && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)& 
+#bindsym mod1+Shift+t exec --no-startup-id variety -t && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
 # Update Wallpaper
 #bindsym mod1+Shift+u exec --no-startup-id wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)
 
@@ -865,7 +835,7 @@ bar {
     # Second one is the standard statusbar with my personal settings
 
 #status_command i3status
-#status_command i3status -c ~/.config/i3/i3status.conf
+status_command i3status -c ~/.config/i3/i3status.conf
 
 
 # OPTION 2 : i3blocks
@@ -878,7 +848,7 @@ bar {
 #status_command i3blocks -c ~/.config/i3/i3blocks.conf
 #status_command i3blocks -c ~/.config/i3/i3blocks-rainbow.conf
 #status_command i3blocks -c ~/.config/i3/i3blocks-original.conf
-status_command i3blocks -c ~/.config/i3/i3blocks-awesome.conf
+#status_command i3blocks -c ~/.config/i3/i3blocks-awesome.conf
 
 
 # OPTION 3 : conky
@@ -1071,5 +1041,6 @@ client.urgent           #d42121 #d42121 #f7f7f7 #d42121
 #
 #
 
-
-exec feh --bg-scale /usr/share/backgrounds/arcolinux/criptica-diethyl-metal-3840x2160.jpg
+exec setxkbmap it
+exec feh --bg-scale /usr/share/backgrounds/arcolinux/pmu-2011-victo-ngai-the-new-standard-2010-3.jpg
+#exec feh --bg-scale /usr/share/backgrounds/arcolinux/criptica-diethyl-metal-3840x2160.jpg
